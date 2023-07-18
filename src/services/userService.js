@@ -1,6 +1,7 @@
 import { UserModel } from "../models/index.js";
 import mongoose from "mongoose";
 import Jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 export const UserService = {
   get: () => {
@@ -9,7 +10,8 @@ export const UserService = {
   getById: (id) => {
     return UserModel.findById(id);
   },
-  createUser: (data) => {
+  createUser: async (data) => {
+    body.password = await bcrypt.hash(data.password, 10);
     return UserModel.create(data);
   },
   createLogin: async (data) => {
